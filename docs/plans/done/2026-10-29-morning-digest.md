@@ -1,8 +1,9 @@
 ---
 plan: morning-digest
-status: ready
+status: done
 owner: rook
 opened: 2026-10-29
+closed: 2026-11-06
 ---
 
 # Morning digest
@@ -77,3 +78,23 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+Completed on 2026-11-06 after confirmation that the reviewer had seen the preview
+and the human explicitly approved marker removal. The clean HTML replaced the
+marked file at the same [public preview URL](https://mega-s01e04-michups-review.adroitbiscuit2.chatgpt.site/digest.html).
+The upload returned HTTP 204. An anonymous GET returned HTTP 200 and matched the
+clean local export exactly; its banner reads `no marker set`. Comparison with the
+reviewed HTML confirmed that only the marker span changed. This commit archives
+the plan with its issue list; no preview HTML or marker is stored in the repository.
+
+## Issue list
+
+| Plan section | GitHub issue | State when archive commit was prepared |
+| --- | --- | --- |
+| 1 | [#1 Run-log reader and shared contract](https://github.com/michups/mega-s01e04-before-i-looked/issues/1) | Closed |
+| 2a | [#2 HTML digest page](https://github.com/michups/mega-s01e04-before-i-looked/issues/2) | Closed |
+| 2b | [#3 JSON digest endpoint](https://github.com/michups/mega-s01e04-before-i-looked/issues/3) | Closed |
+| 2c | [#4 Status-board night links and counts](https://github.com/michups/mega-s01e04-before-i-looked/issues/4) | Closed |
+| 2d | [#5 Digest route tests](https://github.com/michups/mega-s01e04-before-i-looked/issues/5) | Closed |
+| 3 | [#6 Public HTML preview for reviewer](https://github.com/michups/mega-s01e04-before-i-looked/issues/6) | Closed |
+| 4 | [#7 Remove preview marker and archive plan](https://github.com/michups/mega-s01e04-before-i-looked/issues/7) | Cleanup verified; archival completed in this commit, issue closure follows publication |
