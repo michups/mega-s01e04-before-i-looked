@@ -30,8 +30,6 @@ Read first: `docs/vision.md`, `docs/styleguide.md`. Decisions: `docs/adr/`.
 5. An issue is closed only when its "Done when" holds. If it can't hold yet, leave it open and
    say what it waits on.
 
-## Skills
-
 ## Issue contract
 
 For the human-approved morning-digest split, every issue starts with
@@ -41,7 +39,7 @@ issue numbers, worker/model allocation, and the closing-comment format above.
 Keep the review and cleanup as separate issues; leave the review issue open until
 the course confirms that the reviewer has looked at the public preview.
 
-## Shared skills
+## Skills
 
 Shared skills live in `.agents/skills/`, one folder each, `SKILL.md` inside. That folder is the
 one source for every harness on the team. If yours loads skills from somewhere else, point it
