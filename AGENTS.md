@@ -32,6 +32,17 @@ Read first: `docs/vision.md`, `docs/styleguide.md`. Decisions: `docs/adr/`.
 
 ## Skills
 
+## Issue contract
+
+For the human-approved morning-digest split, every issue starts with
+`Source: plan.md § <section>` and carries the `plan:morning-digest` label.
+Each body includes scope, a checkable **Done when**, **Blocked by** with actual
+issue numbers, worker/model allocation, and the closing-comment format above.
+Keep the review and cleanup as separate issues; leave the review issue open until
+the course confirms that the reviewer has looked at the public preview.
+
+## Shared skills
+
 Shared skills live in `.agents/skills/`, one folder each, `SKILL.md` inside. That folder is the
 one source for every harness on the team. If yours loads skills from somewhere else, point it
 here (a link or a config entry). Don't copy: copies drift.
