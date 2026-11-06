@@ -60,7 +60,9 @@ export const readNight: ReadNight = async (runsDir, night) => {
   // Stable sort uses input order for simultaneous events, even with different offsets.
   records.sort((left, right) => Date.parse(left.at) - Date.parse(right.at));
   const jobs = new Map<string, DigestRow>();
+  const counts: Record<RunStatus, number> = { ok: 0, retry: 0, fail: 0 };
   for (const record of records) {
+    counts[record.status] += 1;
     let row = jobs.get(record.job);
     if (!row) {
       row = {
@@ -84,5 +86,5 @@ export const readNight: ReadNight = async (runsDir, night) => {
   }
 
   const rows = [...jobs.values()].sort((left, right) => left.job < right.job ? -1 : left.job > right.job ? 1 : 0);
-  return { found: true, night, rows, badLines };
+  return { found: true, night, rows, badLines, counts };
 };

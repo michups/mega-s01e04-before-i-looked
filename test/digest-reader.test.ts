@@ -24,6 +24,7 @@ describe('readNight', () => {
     expect(result.found).toBe(true);
     if (!result.found) throw new Error('Expected fixture night');
     expect(result.badLines).toBe(1);
+    expect(result.counts).toEqual({ ok: 10, retry: 4, fail: 1 });
     expect(result.rows).toEqual([
       { job: 'digest/render', owner: null, runs: 1, retries: 0, lastStatus: 'ok', lastError: null,
         firstAt: '2026-10-29T05:41:09+01:00', lastAt: '2026-10-29T05:41:09+01:00' },
@@ -41,9 +42,11 @@ describe('readNight', () => {
   it('distinguishes missing nights, empty files and files with only invalid lines', async () => {
     const directory = await runsWith(' \r\n\n');
     expect(await readNight(directory, '2026-10-27')).toEqual({ found: false, night: '2026-10-27' });
-    expect(await readNight(directory, '2026-10-28')).toEqual({ found: true, night: '2026-10-28', rows: [], badLines: 0 });
+    expect(await readNight(directory, '2026-10-28')).toEqual({ found: true, night: '2026-10-28', rows: [], badLines: 0,
+      counts: { ok: 0, retry: 0, fail: 0 } });
     await writeFile(join(directory, '2026-10-28.jsonl'), 'not json\nnull\n');
-    expect(await readNight(directory, '2026-10-28')).toEqual({ found: true, night: '2026-10-28', rows: [], badLines: 2 });
+    expect(await readNight(directory, '2026-10-28')).toEqual({ found: true, night: '2026-10-28', rows: [], badLines: 2,
+      counts: { ok: 0, retry: 0, fail: 0 } });
   });
 
   it('counts malformed JSON and invalid fields without losing valid records', async () => {
@@ -59,6 +62,7 @@ describe('readNight', () => {
     expect(result.found).toBe(true);
     if (!result.found) throw new Error('Expected temporary night');
     expect(result.badLines).toBe(invalid.length + 1);
+    expect(result.counts).toEqual({ ok: 1, retry: 0, fail: 0 });
     expect(result.rows).toHaveLength(1);
     expect(result.rows[0]).toMatchObject({ owner: null, runs: 1, lastStatus: 'ok' });
   });
@@ -74,6 +78,8 @@ describe('readNight', () => {
     const result = await readNight(directory, '2026-10-28');
     expect(result.found).toBe(true);
     if (!result.found) throw new Error('Expected temporary night');
+    // The failure still counts even though the job's final status is ok.
+    expect(result.counts).toEqual({ ok: 2, retry: 1, fail: 1 });
     expect(result.rows).toEqual([{ job: 'job', owner: null, runs: 4, retries: 1, lastStatus: 'ok',
       lastError: 'latest error', firstAt: '2026-10-28T02:00:00+02:00', lastAt: '2026-10-28T02:15:00+01:00' }]);
   });
